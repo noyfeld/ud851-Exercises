@@ -71,7 +71,25 @@ public class NetworkUtils {
      * @throws IOException Related to network and stream reading
      */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+        HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+        String responseString=null;
+        try {
+            InputStream in = httpURLConnection.getInputStream();
+            Scanner sc = new Scanner(in);
+            sc.useDelimiter("\\A");
+
+            if (sc.hasNext()){
+                responseString=sc.next();
+                return responseString;
+            }else {
+                return responseString;
+            }
+        }finally {
+            httpURLConnection.disconnect();
+        }
+
+        /*HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = urlConnection.getInputStream();
 
@@ -86,6 +104,6 @@ public class NetworkUtils {
             }
         } finally {
             urlConnection.disconnect();
-        }
+        }*/
     }
 }
