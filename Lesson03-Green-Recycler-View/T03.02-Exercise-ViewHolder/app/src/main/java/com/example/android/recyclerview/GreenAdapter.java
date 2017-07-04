@@ -54,6 +54,7 @@ public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHo
     private static final String TAG = GreenAdapter.class.getSimpleName();
 
     private int mNumberItems;
+    private static int mCounterOfHolders =0;
 
     /**
      * Constructor for GreenAdapter that accepts a number of items to display and the specification
@@ -86,6 +87,8 @@ public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHo
 
         View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
         NumberViewHolder viewHolder = new NumberViewHolder(view);
+
+        viewHolder.itemView.setBackgroundColor(ColorUtils.getViewHolderBackgroundColorFromInstance(context,mCounterOfHolders++));
 
         return viewHolder;
     }
@@ -128,5 +131,19 @@ public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHo
     // TODO (17) Within bind, set the text of listItemNumberView to the listIndex
     // TODO (18) Be careful to get the String representation of listIndex, as using setText with an int does something different
 
+     class NumberViewHolder extends RecyclerView.ViewHolder {
+
+         TextView mListItemNumberView;
+
+         NumberViewHolder(View itemView) {
+            super(itemView);
+
+             mListItemNumberView=(TextView)itemView.findViewById(R.id.tv_item_number);
+        }
+
+        void bind(int listIndex){
+            mListItemNumberView.setText(String.valueOf(listIndex));
+        }
     }
+
 }

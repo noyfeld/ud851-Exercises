@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 /**
@@ -90,6 +91,7 @@ public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHo
     public void onBindViewHolder(NumberViewHolder holder, int position) {
         Log.d(TAG, "#" + position);
         holder.bind(position);
+
     }
 
     /**
@@ -110,6 +112,7 @@ public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHo
 
         // Will display the position in the list, ie 0 through getItemCount() - 1
         TextView listItemNumberView;
+        FrameLayout fl;
 
         /**
          * Constructor for our ViewHolder. Within this constructor, we get a reference to our
@@ -120,8 +123,8 @@ public class GreenAdapter extends RecyclerView.Adapter<GreenAdapter.NumberViewHo
          */
         public NumberViewHolder(View itemView) {
             super(itemView);
-
             listItemNumberView = (TextView) itemView.findViewById(R.id.tv_item_number);
+            fl=(FrameLayout)itemView.findViewById(R.id.fl);
         }
 
         /**

@@ -16,7 +16,9 @@
 package com.example.android.recyclerview;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -56,16 +58,22 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mNumbersList.setLayoutManager(layoutManager);
 
+        DividerItemDecoration did = new DividerItemDecoration(mNumbersList.getContext(),layoutManager.getOrientation());
+        did.setDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.my_drawable));
+        mNumbersList.addItemDecoration(did);
+
         /*
          * Use this setting to improve performance if you know that changes in content do not
          * change the child layout size in the RecyclerView
          */
         mNumbersList.setHasFixedSize(true);
 
+
         /*
          * The GreenAdapter is responsible for displaying each item in the list.
          */
         mAdapter = new GreenAdapter(NUM_LIST_ITEMS);
+
 
         mNumbersList.setAdapter(mAdapter);
     }
