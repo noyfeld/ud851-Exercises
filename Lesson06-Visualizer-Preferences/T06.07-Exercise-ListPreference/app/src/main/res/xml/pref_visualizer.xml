@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <CheckBoxPreference
@@ -22,7 +21,11 @@
         android:summaryOff="@string/pref_show_false"
         android:summaryOn="@string/pref_show_true"
         android:title="@string/pref_show_treble_label" />
-
-    <!-- TODO (1) Add a list preference -->
-
+    <ListPreference
+        android:key="@string/pref_colorlist_key"
+        android:title="@string/pref_colorlist_title"
+        android:entries="@array/pref_colorlist_entries"
+        android:entryValues="@array/pref_colorlist_entryvalues"
+        android:defaultValue="@string/pref_colorlist_value_blue"
+        />
 </PreferenceScreen>

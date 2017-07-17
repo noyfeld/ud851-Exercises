@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="pref_colorlist_entries">
+        <item>@string/pref_colorlist_entry_red</item>
+        <item>@string/pref_colorlist_entry_green</item>
+        <item>@string/pref_colorlist_entry_blue</item>
+    </array>
+
+    <array name="pref_colorlist_entryvalues">
+        <item>@string/pref_colorlist_value_red</item>
+        <item>@string/pref_colorlist_value_green</item>
+        <item>@string/pref_colorlist_value_blue</item>
+       </array>
+</resources>

@@ -19,23 +19,28 @@ package android.example.com.visualizerpreferences;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat implements
-        OnSharedPreferenceChangeListener {
+        OnSharedPreferenceChangeListener,Preference.OnPreferenceChangeListener {
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
 
         // Add visualizer preferences, defined in the XML file in res->xml->pref_visualizer
         addPreferencesFromResource(R.xml.pref_visualizer);
+
+        Preference editPreference = findPreference(getString(R.string.pref_size_key));
+        editPreference.setOnPreferenceChangeListener(this);
 
         SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
         PreferenceScreen prefScreen = getPreferenceScreen();
@@ -82,6 +87,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 // Set the summary to that label
                 listPreference.setSummary(listPreference.getEntries()[prefIndex]);
             }
+        }else if (preference instanceof EditTextPreference){
+            preference.setSummary(value);
         }
     }
     
@@ -90,6 +97,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         super.onCreate(savedInstanceState);
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
+
     }
 
     @Override
@@ -97,5 +105,29 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         super.onDestroy();
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        if (preference.getKey().equals(getString(R.string.pref_size_key))){
+            String newValueString =((String)newValue).trim();
+            Toast errorToast =Toast.makeText(getContext(),"shape size must be number between 0.1 and 3.0",Toast.LENGTH_LONG);
+            if (TextUtils.isEmpty(newValueString)){
+                errorToast.show();
+                return false;
+            }
+
+            try {
+                float f = Float.parseFloat(newValueString);
+                if (f<=0||f>3){
+                    errorToast.show();
+                    return false;
+                }
+            } catch (NumberFormatException e) {
+                errorToast.show();
+                return false;
+            }
+        }
+        return true;
     }
 }
