@@ -15,8 +15,7 @@
             android:id="@+id/person_name_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-
+            android:layout_weight="8"
             android:hint="@string/guest_name_hint"
             android:inputType="textPersonName|textCapWords"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />

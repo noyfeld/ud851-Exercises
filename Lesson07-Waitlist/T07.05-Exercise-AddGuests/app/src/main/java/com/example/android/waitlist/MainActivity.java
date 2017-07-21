@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.android.waitlist.data.TestUtil;
 import com.example.android.waitlist.data.WaitlistContract;
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     private GuestListAdapter mAdapter;
     private SQLiteDatabase mDb;
+    private EditText etNameOfPerson;
+    private EditText etSizeOfParty;
 
     // TODO (1) Create local EditText members for mNewGuestNameEditText and mNewPartySizeEditText
 
@@ -36,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         waitlistRecyclerView = (RecyclerView) this.findViewById(R.id.all_guests_list_view);
 
         // TODO (2) Set the Edit texts to the corresponding views using findViewById
+        etNameOfPerson=(EditText)findViewById(R.id.person_name_edit_text);
+        etSizeOfParty=(EditText)findViewById(R.id.party_count_edit_text);
 
         // Set layout for the RecyclerView, because it's a list we are using the linear layout
         waitlistRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -70,18 +75,32 @@ public class MainActivity extends AppCompatActivity {
     public void addToWaitlist(View view) {
 
         // TODO (9) First thing, check if any of the EditTexts are empty, return if so
-
         // TODO (10) Create an integer to store the party size and initialize to 1
-
         // TODO (11) Use Integer.parseInt to parse mNewPartySizeEditText.getText to an integer
-
         // TODO (12) Make sure you surround the Integer.parseInt with a try catch and log any exception
-
         // TODO (14) call addNewGuest with the guest name and party size
-
         // TODO (19) call mAdapter.swapCursor to update the cursor by passing in getAllGuests()
+        // TODO (20) To make the UI look nice, call .getText().clear() on both EditTexts, also call clearFocus() on
+        if (etSizeOfParty.getText().toString().length()==0
+                ||etNameOfPerson.getText().toString().length()==0){
+            Toast.makeText(this,"please input both forms",Toast.LENGTH_LONG).show();
+            return;
+        }
+        String name = etNameOfPerson.getText().toString();
+        int size =1;
+        try {
+            size = Integer.parseInt(etSizeOfParty.getText().toString());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return;
+        }
+        addGuest(name,size);
+        etNameOfPerson.getText().clear();
+        etSizeOfParty.getText().clear();
+        etSizeOfParty.clearFocus();
 
-        // TODO (20) To make the UI look nice, call .getText().clear() on both EditTexts, also call clearFocus() on mNewPartySizeEditText
+        mAdapter.swapCursor(getAllGuests());
+
 
     }
 
@@ -105,6 +124,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // TODO (4) Create a new addGuest method
+    private void addGuest(String name,int size){
+        ContentValues cv = new ContentValues();
+        cv.put(WaitlistContract.WaitlistEntry.COLUMN_GUEST_NAME,name);
+        cv.put(WaitlistContract.WaitlistEntry.COLUMN_PARTY_SIZE,size);
+        mDb.insert(WaitlistContract.WaitlistEntry.TABLE_NAME,null,cv);
+    }
 
     // TODO (5) Inside, create a ContentValues instance to pass the values onto the insert query
 
